@@ -15,9 +15,13 @@ const getNumber = (value) => {
   let number = '';
   for (let i = 0; i < string.length; i++) {
     const symbol = string[i];
-    if (!Number.isNaN(parseInt(symbol))) {
+    if (!Number.isNaN(parseInt(symbol, 10))) {
       number += symbol;
     }
   }
-  return parseInt(number);
+  return parseInt(number, 10);
 };
+
+checkLength('проверяемая строка', 20);
+checkPalindrome('ДовОд');
+getNumber('2023 год');
