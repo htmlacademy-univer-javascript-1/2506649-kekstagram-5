@@ -66,4 +66,5 @@ const createDescriptionPhoto = () => ({
   comments: Array.from({length: getRandomInteger(0, 30)}, createComments),
 });
 
+// eslint-disable-next-line no-unused-vars
 const descriptionsPhoto = Array.from({length: DESCRIPTION_COUNT}, createDescriptionPhoto);
