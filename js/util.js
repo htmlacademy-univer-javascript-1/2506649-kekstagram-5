@@ -1,10 +1,7 @@
 const createId = () => {
   let lastGeneratedId = 0;
 
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
+  return () => ++lastGeneratedId;
 };
 
 const getRandomInteger = (a, b) => {
