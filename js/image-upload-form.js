@@ -1,5 +1,10 @@
 import { isEscapeKey } from './util.js';
 import {pristine} from './validator.js';
+import {changeScaleValue} from './scale-image.js';
+import {updateSlider, updateImageEffects} from './apply-filter.js';
+
+const DEFAULT_SCALE_VALUE = 100;
+const DEFAULT_FILTER = 'none';
 
 const form = document.querySelector('.img-upload__form');
 const imgField = form.querySelector('.img-upload__input');
@@ -17,6 +22,8 @@ const onDocumentKeydown = (evt) => {
 };
 
 const showImgEditingModal = () => {
+  updateSlider(DEFAULT_FILTER);
+  updateImageEffects(DEFAULT_FILTER);
   imgEditingModal.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
@@ -25,6 +32,7 @@ const showImgEditingModal = () => {
 const hideImgEditingModal = () => {
   form.reset();
   pristine.reset();
+  changeScaleValue(DEFAULT_SCALE_VALUE);
   imgEditingModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);

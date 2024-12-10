@@ -1,11 +1,10 @@
-const form = document.querySelector('.img-upload__form');
-const hashtagsField = form.querySelector('.text__hashtags');
-const descriptionField = form.querySelector('.text__description');
-
-
 const MAX_DESCRIPTION_LENGTH = 140;
 const MAX_HASHTAGS_COUNT = 5;
 const HASHTAG_REGEXP = /^#[a-zа-яё0-9]{1,19}$/i;
+
+const form = document.querySelector('.img-upload__form');
+const hashtagsField = form.querySelector('.text__hashtags');
+const descriptionField = form.querySelector('.text__description');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
