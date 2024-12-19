@@ -1,10 +1,10 @@
 import {renderPictures} from './picture.js';
 import {showBigPicture} from './big-picture.js';
 
-const picturesContainer = document.querySelector('.pictures');
+const picturesList = document.querySelector('.pictures');
 
 const renderGallery = (pictures) => {
-  picturesContainer.addEventListener('click', (evt) => {
+  picturesList.addEventListener('click', (evt) => {
     const thumbnail = evt.target.closest('.picture');
 
     if (thumbnail) {
@@ -16,7 +16,7 @@ const renderGallery = (pictures) => {
     }
   });
 
-  renderPictures(pictures, picturesContainer);
+  renderPictures(pictures, picturesList);
 };
 
 export {renderGallery};

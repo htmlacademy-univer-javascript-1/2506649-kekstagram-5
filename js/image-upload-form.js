@@ -2,11 +2,17 @@ import { isEscapeKey } from './util.js';
 import {pristine} from './validator.js';
 import {changeScaleValue} from './scale-image.js';
 import {updateSlider, updateImageEffects} from './apply-filter.js';
+import {sendData} from './api.js';
 
 const DEFAULT_SCALE_VALUE = 100;
 const DEFAULT_FILTER = 'none';
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Отправляю...'
+};
 
 const form = document.querySelector('.img-upload__form');
+const submitButton = form.querySelector('button[type="submit"]');
 const imgField = form.querySelector('.img-upload__input');
 const imgEditingModal = form.querySelector('.img-upload__overlay');
 const closeButton = imgEditingModal.querySelector('.img-upload__cancel');
@@ -14,7 +20,7 @@ const hashtagsField = imgEditingModal.querySelector('.text__hashtags');
 const descriptionField = imgEditingModal.querySelector('.text__description');
 
 const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && !document.querySelector('.success') && !document.querySelector('.error')) {
     evt.preventDefault();
     // eslint-disable-next-line no-use-before-define
     hideImgEditingModal();
@@ -54,7 +60,29 @@ imgField.addEventListener('change', () => {
 
 closeButton.addEventListener('click', hideImgEditingModal);
 
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
+
+const setUserFormSubmit = (onSuccess, onFail) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .catch(onFail)
+        .finally(unblockSubmitButton);
+    }
+  });
+};
+
+export {setUserFormSubmit, hideImgEditingModal};

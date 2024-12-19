@@ -1,8 +1,8 @@
 import { isEscapeKey } from './util.js';
 
 const bigPicture = document.querySelector('.big-picture');
-const commentsContainer = bigPicture.querySelector('.social__comments');
-const commentElement = commentsContainer.querySelector('.social__comment');
+const commentsList = bigPicture.querySelector('.social__comments');
+const commentTemplate = commentsList.querySelector('.social__comment');
 const commentCounter = bigPicture.querySelector('.social__comment-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 const closeButton = bigPicture.querySelector('#picture-cancel');
@@ -16,7 +16,7 @@ const renderBigPictureDetails = ({url, description, likes, comments}) => {
 };
 
 const createComment = ({avatar, message, name}) => {
-  const comment = commentElement.cloneNode(true);
+  const comment = commentTemplate.cloneNode(true);
 
   comment.querySelector('.social__picture').src = avatar;
   comment.querySelector('.social__picture').alt = name;
@@ -26,7 +26,7 @@ const createComment = ({avatar, message, name}) => {
 };
 
 const renderComments = (comments) => {
-  commentsContainer.innerHTML = '';
+  commentsList.innerHTML = '';
   const commentsFragment = document.createDocumentFragment();
 
   comments.forEach((item)=> {
@@ -34,7 +34,7 @@ const renderComments = (comments) => {
     commentsFragment.append(comment);
   });
 
-  commentsContainer.append(commentsFragment);
+  commentsList.append(commentsFragment);
 };
 
 const onDocumentKeydown = (evt) => {
@@ -53,7 +53,7 @@ const hideBigPicture = () => {
 };
 
 const truncateCommentsCount = () => {
-  const comments = commentsContainer.querySelectorAll('.social__comment');
+  const comments = commentsList.querySelectorAll('.social__comment');
   comments.forEach((comment) => comment.classList.add('hidden'));
   for (let i = 0; i < Math.min(visibleCommentsCount, comments.length); i++) {
     comments[i].classList.remove('hidden');
