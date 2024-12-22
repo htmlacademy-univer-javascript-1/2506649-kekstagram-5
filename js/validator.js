@@ -15,23 +15,23 @@ const descriptionLengthValidate = (value) => value.length <= MAX_DESCRIPTION_LEN
 
 pristine.addValidator(descriptionField, descriptionLengthValidate, 'Максимальная длина 140 символов');
 
-const hashtagsCountValidate = (value) => value.split(' ').length <= MAX_HASHTAGS_COUNT;
+const hashtagsCountValidate = (value) => value.trim().split(/\s+/).length <= MAX_HASHTAGS_COUNT;
 
-pristine.addValidator(hashtagsField, hashtagsCountValidate, 'Превышено количество хэш-тего');
+pristine.addValidator(hashtagsField, hashtagsCountValidate, 'Превышено количество хэш-тегов');
 
 const hashtagFormatValidate = (value) => {
   if (value.length === 0) {
     return true;
   }
 
-  const hashtags = value.split(' ');
+  const hashtags = value.trim().split(/\s+/);
   return hashtags.every((hashtag) => HASHTAG_REGEXP.test(hashtag));
 };
 
 pristine.addValidator(hashtagsField, hashtagFormatValidate, 'Введен невалидный хэш-тэг');
 
 const hashtagsRepeatValidate = (value) => {
-  const hashtags = value.split(' ');
+  const hashtags = value.trim().split(/\s+/);
   const lowerCasedHashtags = hashtags.map((hashtag) => hashtag.toLowerCase());
   return new Set(lowerCasedHashtags).size === lowerCasedHashtags.length;
 };
