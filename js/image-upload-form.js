@@ -18,6 +18,7 @@ const imgEditingModal = form.querySelector('.img-upload__overlay');
 const closeButton = imgEditingModal.querySelector('.img-upload__cancel');
 const hashtagsField = imgEditingModal.querySelector('.text__hashtags');
 const descriptionField = imgEditingModal.querySelector('.text__description');
+const preview = imgEditingModal.querySelector('.img-upload__preview img');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt) && !document.querySelector('.success') && !document.querySelector('.error')) {
@@ -39,6 +40,7 @@ const hideImgEditingModal = () => {
   form.reset();
   pristine.reset();
   changeScaleValue(DEFAULT_SCALE_VALUE);
+  preview.src = '';
   imgEditingModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -54,8 +56,14 @@ hashtagsField.addEventListener('keydown', stopPropagation);
 
 descriptionField.addEventListener('keydown', stopPropagation);
 
+const changePhoto = () => {
+  const file = imgField.files[0];
+  preview.src = URL.createObjectURL(file);
+};
+
 imgField.addEventListener('change', () => {
   showImgEditingModal();
+  changePhoto();
 });
 
 closeButton.addEventListener('click', hideImgEditingModal);
