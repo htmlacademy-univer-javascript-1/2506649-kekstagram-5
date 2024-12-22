@@ -19,6 +19,7 @@ const closeButton = imgEditingModal.querySelector('.img-upload__cancel');
 const hashtagsField = imgEditingModal.querySelector('.text__hashtags');
 const descriptionField = imgEditingModal.querySelector('.text__description');
 const preview = imgEditingModal.querySelector('.img-upload__preview img');
+const effectsPreviews = imgEditingModal.querySelectorAll('.effects__preview');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt) && !document.querySelector('.success') && !document.querySelector('.error')) {
@@ -59,6 +60,7 @@ descriptionField.addEventListener('keydown', stopPropagation);
 const changePhoto = () => {
   const file = imgField.files[0];
   preview.src = URL.createObjectURL(file);
+  effectsPreviews.forEach((effectPreview) => (effectPreview.style.backgroundImage = `url(${URL.createObjectURL(file)})`));
 };
 
 imgField.addEventListener('change', () => {
